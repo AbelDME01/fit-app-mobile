@@ -1,0 +1,245 @@
+.home-container {
+  padding: 0;
+  min-height: 100%;
+  background: var(--swiss-bg);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 16px;
+
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .greeting {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--swiss-text-secondary);
+  }
+
+  .title {
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    color: var(--swiss-text-primary);
+    margin: 0;
+  }
+
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--swiss-surface);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon {
+      font-size: 20px;
+      color: var(--swiss-text-primary);
+    }
+  }
+}
+
+.section {
+  padding: 16px 24px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+
+  .accent-line {
+    width: 24px;
+    height: 2px;
+    background: var(--swiss-accent);
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--swiss-text-secondary);
+  }
+}
+
+.section-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+
+  .section-header {
+    margin-bottom: 0;
+  }
+
+  .view-all-link {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--swiss-accent);
+    text-decoration: none;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.stat-card {
+  background: var(--swiss-surface);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .stat-value {
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--swiss-text-primary);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--swiss-text-secondary);
+  }
+
+  .stat-change {
+    font-size: 12px;
+    color: var(--swiss-accent);
+    margin-top: 4px;
+  }
+}
+
+.workouts-list {
+  background: var(--swiss-surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.workout-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border-bottom: 1px solid var(--swiss-border);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .workout-indicator {
+    width: 4px;
+    height: 40px;
+    background: var(--swiss-accent);
+    border-radius: 2px;
+  }
+
+  .workout-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .workout-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--swiss-text-primary);
+    }
+
+    .workout-meta {
+      font-size: 12px;
+      color: var(--swiss-text-muted);
+    }
+  }
+
+  .workout-arrow {
+    color: var(--swiss-text-muted);
+    font-size: 16px;
+  }
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.quick-card {
+  background: var(--swiss-surface);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-decoration: none;
+  border: 1px solid var(--swiss-border);
+
+  &.primary {
+    background: var(--swiss-accent);
+    border: none;
+
+    ion-icon,
+    .quick-title,
+    .quick-subtitle {
+      color: #FFFFFF;
+    }
+
+    .quick-subtitle {
+      opacity: 0.8;
+    }
+  }
+
+  ion-icon {
+    font-size: 24px;
+    color: var(--swiss-text-primary);
+  }
+
+  .quick-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .quick-title {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--swiss-text-primary);
+  }
+
+  .quick-subtitle {
+    font-size: 12px;
+    color: var(--swiss-text-muted);
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+
+  ion-spinner {
+    --color: var(--swiss-accent);
+  }
+}
+
+.empty-state {
+  padding: 24px;
+  text-align: center;
+  color: var(--swiss-text-muted);
+  font-size: 14px;
+}

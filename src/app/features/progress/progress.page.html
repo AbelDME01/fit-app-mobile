@@ -1,0 +1,110 @@
+<ion-content [fullscreen]="true">
+  <div class="progress-container safe-area-top">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <span class="subtitle">Tu evolución</span>
+        <h1 class="title">Progreso</h1>
+      </div>
+      <button class="icon-btn">
+        <ion-icon name="calendar-outline"></ion-icon>
+      </button>
+    </header>
+
+    <div class="content">
+      <!-- Time Filter -->
+      <div class="filter-tabs">
+        @for (filter of timeFilters; track filter.id) {
+          <button
+            class="filter-tab"
+            [class.active]="activeTimeFilter() === filter.id"
+            (click)="setTimeFilter(filter.id)"
+          >
+            {{ filter.label }}
+          </button>
+        }
+      </div>
+
+      @if (loading()) {
+        <div class="loading-container">
+          <ion-spinner name="crescent"></ion-spinner>
+        </div>
+      } @else {
+        <!-- Summary Section -->
+        <section class="section">
+          <div class="section-header">
+            <div class="accent-line"></div>
+            <span class="section-label">RESUMEN DEL MES</span>
+          </div>
+          <div class="summary-grid">
+            <div class="summary-card">
+              <span class="summary-value">{{ summary()?.totalWorkouts || 0 }}</span>
+              <span class="summary-label">Entrenamientos</span>
+            </div>
+            <div class="summary-card">
+              <span class="summary-value">{{ summary()?.totalTime || 0 }}h</span>
+              <span class="summary-label">Tiempo activo</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Chart Section -->
+        <section class="section">
+          <div class="section-header-row">
+            <div class="section-header">
+              <div class="accent-line"></div>
+              <span class="section-label">ACTIVIDAD SEMANAL</span>
+            </div>
+            <span class="chart-avg">Prom: {{ summary()?.averagePerWeek || 0 }} sesiones</span>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-bars">
+              @if (chartData()?.data?.length) {
+                @for (value of chartData()!.data; track $index; let i = $index) {
+                  <div class="bar-container">
+                    <div
+                      class="bar"
+                      [style.height.%]="getBarHeight(value)"
+                      [class.highlight]="value === Math.max(...chartData()!.data)"
+                    ></div>
+                    <span class="bar-label">{{ chartData()!.labels[i] }}</span>
+                  </div>
+                }
+              }
+            </div>
+          </div>
+        </section>
+
+        <!-- Goals Section -->
+        <section class="section">
+          <div class="section-header">
+            <div class="accent-line"></div>
+            <span class="section-label">OBJETIVOS</span>
+          </div>
+
+          <div class="goals-card">
+            @for (goal of goals(); track goal.id) {
+              <div class="goal-item">
+                <div class="goal-info">
+                  <span class="goal-title">{{ goal.title }}</span>
+                  <div class="goal-progress-bar">
+                    <div
+                      class="goal-progress-fill"
+                      [style.width.%]="getGoalProgress(goal)"
+                    ></div>
+                  </div>
+                </div>
+                <span class="goal-value">{{ formatGoalProgress(goal) }}</span>
+              </div>
+            } @empty {
+              <div class="empty-goals">
+                <p>No hay objetivos definidos</p>
+              </div>
+            }
+          </div>
+        </section>
+      }
+    </div>
+  </div>
+</ion-content>

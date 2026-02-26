@@ -1,0 +1,97 @@
+<ion-content [fullscreen]="true">
+  <div class="add-workout-container safe-area-top">
+    <!-- Header -->
+    <header class="header">
+      <button class="icon-btn" (click)="goBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+      <h1 class="title">Nuevo Entrenamiento</h1>
+      <button class="cancel-btn" (click)="cancel()">Cancelar</button>
+    </header>
+
+    <div class="content">
+      <!-- Name Input -->
+      <section class="form-section">
+        <label class="form-label">Nombre del entrenamiento</label>
+        <div class="input-wrapper">
+          <input
+            type="text"
+            class="form-input"
+            placeholder="Ej: Pecho + Tríceps"
+            [ngModel]="workoutName()"
+            (ngModelChange)="workoutName.set($event)"
+          />
+        </div>
+      </section>
+
+      <!-- Workout Type -->
+      <section class="form-section">
+        <label class="form-label">Tipo de entrenamiento</label>
+        <div class="type-cards">
+          @for (type of workoutTypes; track type.id) {
+            <button
+              class="type-card"
+              [class.selected]="selectedTypeId() === type.id"
+              (click)="selectType(type.id)"
+            >
+              <ion-icon [name]="type.icon"></ion-icon>
+              <span>{{ type.name }}</span>
+            </button>
+          }
+        </div>
+      </section>
+
+      <!-- Exercises -->
+      <section class="form-section">
+        <div class="section-header-row">
+          <div class="section-header">
+            <div class="accent-line"></div>
+            <span class="section-label">EJERCICIOS</span>
+          </div>
+          <button class="add-btn" (click)="addExercise()">
+            <ion-icon name="add-outline"></ion-icon>
+            <span>Añadir</span>
+          </button>
+        </div>
+
+        <div class="exercises-list">
+          @for (exercise of exercises(); track $index; let i = $index) {
+            <div class="exercise-item">
+              <div class="exercise-number">{{ i + 1 }}</div>
+              <div class="exercise-info">
+                <input
+                  type="text"
+                  class="exercise-name-input"
+                  placeholder="Nombre del ejercicio"
+                />
+                <span class="exercise-meta">{{ exercise.sets }} series × {{ exercise.reps }} reps</span>
+              </div>
+              <div class="exercise-actions">
+                <button class="action-btn">
+                  <ion-icon name="create-outline"></ion-icon>
+                </button>
+                <button class="action-btn" (click)="removeExercise(i)">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </section>
+
+      <!-- Save Button -->
+      <button
+        class="save-btn"
+        (click)="saveWorkout()"
+        [disabled]="saving()"
+      >
+        @if (saving()) {
+          <ion-spinner name="crescent"></ion-spinner>
+        } @else {
+          <ion-icon name="save-outline"></ion-icon>
+          <span>Guardar Entrenamiento</span>
+        }
+      </button>
+    </div>
+  </div>
+</ion-content>

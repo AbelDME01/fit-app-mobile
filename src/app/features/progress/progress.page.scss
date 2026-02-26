@@ -1,0 +1,262 @@
+.progress-container {
+  min-height: 100%;
+  background: var(--swiss-bg);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 16px;
+
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--swiss-text-secondary);
+  }
+
+  .title {
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    color: var(--swiss-text-primary);
+    margin: 0;
+  }
+
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--swiss-surface);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon {
+      font-size: 20px;
+      color: var(--swiss-text-primary);
+    }
+  }
+}
+
+.content {
+  padding: 16px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.filter-tabs {
+  background: var(--swiss-surface);
+  border-radius: 8px;
+  padding: 4px;
+  display: flex;
+  gap: 4px;
+}
+
+.filter-tab {
+  flex: 1;
+  height: 36px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--swiss-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.active {
+    background: var(--swiss-accent);
+    color: #FFFFFF;
+    font-weight: 600;
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .accent-line {
+    width: 24px;
+    height: 2px;
+    background: var(--swiss-accent);
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--swiss-text-secondary);
+  }
+}
+
+.section-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .chart-avg {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--swiss-text-muted);
+  }
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.summary-card {
+  background: var(--swiss-surface);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .summary-value {
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--swiss-text-primary);
+  }
+
+  .summary-label {
+    font-size: 12px;
+    color: var(--swiss-text-secondary);
+  }
+}
+
+.chart-card {
+  background: var(--swiss-surface);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.chart-bars {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 120px;
+  gap: 8px;
+}
+
+.bar-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  justify-content: flex-end;
+
+  .bar {
+    width: 100%;
+    max-width: 32px;
+    background: var(--swiss-text-muted);
+    border-radius: 4px 4px 0 0;
+    transition: height 0.3s ease;
+
+    &.highlight {
+      background: var(--swiss-accent);
+    }
+  }
+
+  .bar-label {
+    font-size: 11px;
+    color: var(--swiss-text-muted);
+    font-weight: 500;
+  }
+}
+
+.goals-card {
+  background: var(--swiss-surface);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.goal-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-bottom: 1px solid var(--swiss-border);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .goal-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .goal-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--swiss-text-primary);
+    }
+
+    .goal-progress-bar {
+      height: 6px;
+      background: var(--swiss-border);
+      border-radius: 3px;
+      overflow: hidden;
+
+      .goal-progress-fill {
+        height: 100%;
+        background: var(--swiss-accent);
+        border-radius: 3px;
+        transition: width 0.3s ease;
+      }
+    }
+  }
+
+  .goal-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--swiss-text-secondary);
+    white-space: nowrap;
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+
+  ion-spinner {
+    --color: var(--swiss-accent);
+  }
+}
+
+.empty-goals {
+  padding: 24px;
+  text-align: center;
+
+  p {
+    color: var(--swiss-text-muted);
+    font-size: 14px;
+    margin: 0;
+  }
+}

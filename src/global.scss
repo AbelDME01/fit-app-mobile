@@ -1,0 +1,143 @@
+/*
+ * FitPro Global Styles
+ * Swiss Design System
+ */
+
+@import '@ionic/angular/css/core.css';
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+@import '@ionic/angular/css/display.css';
+@import '@ionic/angular/css/padding.css';
+@import '@ionic/angular/css/float-elements.css';
+@import '@ionic/angular/css/text-alignment.css';
+@import '@ionic/angular/css/text-transformation.css';
+@import '@ionic/angular/css/flex-utils.css';
+
+// Global styles
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--swiss-bg);
+  color: var(--swiss-text-primary);
+}
+
+// Typography
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+// Cards
+.card {
+  background: var(--swiss-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+}
+
+.card-bordered {
+  border: 1px solid var(--swiss-border);
+}
+
+// Buttons
+.btn-primary {
+  background: var(--swiss-accent);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+// Section headers
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+
+  .accent-line {
+    width: 24px;
+    height: 2px;
+    background: var(--swiss-accent);
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--swiss-text-secondary);
+    text-transform: uppercase;
+  }
+}
+
+// Stat cards
+.stat-card {
+  background: var(--swiss-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+
+  .stat-value {
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--swiss-text-primary);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--swiss-text-secondary);
+    margin-top: 4px;
+  }
+
+  .stat-change {
+    font-size: 12px;
+    color: var(--swiss-accent);
+    margin-top: 8px;
+  }
+}
+
+// Tab bar
+ion-tab-bar {
+  --background: var(--swiss-surface);
+  border-top: none;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+ion-tab-button {
+  --color: var(--swiss-text-muted);
+  --color-selected: var(--swiss-accent);
+
+  ion-label {
+    font-size: 10px;
+    font-weight: 500;
+  }
+}
+
+// Safe area
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+// Scrollbar hide
+::-webkit-scrollbar {
+  display: none;
+}

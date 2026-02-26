@@ -1,0 +1,101 @@
+<ion-content [fullscreen]="true">
+  <div class="home-container safe-area-top">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <span class="greeting">Hola, {{ userName() }}</span>
+        <h1 class="title">Entrenamientos</h1>
+      </div>
+      <button class="icon-btn">
+        <ion-icon name="notifications-outline"></ion-icon>
+      </button>
+    </header>
+
+    <!-- Loading -->
+    @if (loading()) {
+      <div class="loading-container">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+    } @else {
+      <!-- Stats Section -->
+      <section class="section">
+        <div class="section-header">
+          <div class="accent-line"></div>
+          <span class="section-label">ESTA SEMANA</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-value">{{ stats()?.totalSessions || 0 }}</span>
+            <span class="stat-label">Sesiones</span>
+            @if (stats()?.weeklyChange) {
+              <span class="stat-change">+{{ stats()?.weeklyChange }} vs semana pasada</span>
+            }
+          </div>
+          <div class="stat-card">
+            <span class="stat-value">{{ stats()?.totalTime || 0 }}h</span>
+            <span class="stat-label">Tiempo total</span>
+            @if (stats()?.timeChange) {
+              <span class="stat-change">+{{ stats()?.timeChange }}min</span>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Workouts Section -->
+      <section class="section">
+        <div class="section-header-row">
+          <div class="section-header">
+            <div class="accent-line"></div>
+            <span class="section-label">ENTRENAMIENTOS RECIENTES</span>
+          </div>
+          <a class="view-all-link" routerLink="/tabs/add-workout">Ver todo</a>
+        </div>
+
+        <div class="workouts-list">
+          @for (workout of recentWorkouts(); track workout.id) {
+            <div class="workout-item">
+              <div class="workout-indicator"></div>
+              <div class="workout-info">
+                <span class="workout-name">{{ workout.name }}</span>
+                <span class="workout-meta">
+                  {{ workout.scheduledDate | date:'shortDate' }} ·
+                  {{ workout.durationMinutes }}min ·
+                  {{ workout.exercises.length }} ejercicios
+                </span>
+              </div>
+              <ion-icon name="chevron-forward" class="workout-arrow"></ion-icon>
+            </div>
+          } @empty {
+            <div class="empty-state">
+              <p>No hay entrenamientos recientes</p>
+            </div>
+          }
+        </div>
+      </section>
+
+      <!-- Quick Access Section -->
+      <section class="section">
+        <div class="section-header">
+          <div class="accent-line"></div>
+          <span class="section-label">ACCESO RÁPIDO</span>
+        </div>
+        <div class="quick-grid">
+          <a class="quick-card primary" routerLink="/tabs/add-workout">
+            <ion-icon name="add-outline"></ion-icon>
+            <div class="quick-text">
+              <span class="quick-title">Nuevo Entrenamiento</span>
+              <span class="quick-subtitle">Crear sesión</span>
+            </div>
+          </a>
+          <a class="quick-card" routerLink="/tabs/records">
+            <ion-icon name="trophy-outline"></ion-icon>
+            <div class="quick-text">
+              <span class="quick-title">Mis Marcas</span>
+              <span class="quick-subtitle">Records personales</span>
+            </div>
+          </a>
+        </div>
+      </section>
+    }
+  </div>
+</ion-content>

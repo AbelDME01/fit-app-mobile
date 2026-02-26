@@ -1,0 +1,190 @@
+.records-container {
+  min-height: 100%;
+  background: var(--swiss-bg);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 16px;
+
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--swiss-text-secondary);
+  }
+
+  .title {
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    color: var(--swiss-text-primary);
+    margin: 0;
+  }
+
+  .add-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--swiss-accent);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    ion-icon {
+      font-size: 20px;
+      color: #FFFFFF;
+    }
+  }
+}
+
+.content {
+  padding: 16px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.filter-tabs {
+  background: var(--swiss-surface);
+  border-radius: 8px;
+  padding: 4px;
+  display: flex;
+  gap: 4px;
+}
+
+.filter-tab {
+  flex: 1;
+  height: 36px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--swiss-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.active {
+    background: var(--swiss-accent);
+    color: #FFFFFF;
+    font-weight: 600;
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .accent-line {
+    width: 24px;
+    height: 2px;
+    background: var(--swiss-accent);
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--swiss-text-secondary);
+  }
+}
+
+.records-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.record-card {
+  background: var(--swiss-surface);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+
+  .record-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .record-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--swiss-text-primary);
+    }
+
+    .record-date {
+      font-size: 12px;
+      color: var(--swiss-text-muted);
+    }
+  }
+
+  .record-value-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+
+    .record-value {
+      font-family: var(--font-heading);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--swiss-text-primary);
+    }
+
+    .record-improvement {
+      font-size: 12px;
+      color: var(--swiss-accent);
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+
+  ion-spinner {
+    --color: var(--swiss-accent);
+  }
+}
+
+.empty-state {
+  padding: 48px 24px;
+  text-align: center;
+  background: var(--swiss-surface);
+  border-radius: 12px;
+
+  p {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--swiss-text-primary);
+    margin: 0 0 8px;
+  }
+
+  span {
+    font-size: 14px;
+    color: var(--swiss-text-muted);
+  }
+}
