@@ -8,6 +8,7 @@ import {
 import { addIcons } from 'ionicons';
 import { calendarOutline } from 'ionicons/icons';
 import { takeUntil } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { ProgressService, ProgressSummary, WeeklyProgress, Goal } from '@core/services/progress.service';
 import { DestroyService } from '@core/services/destroy.service';
 
@@ -68,11 +69,9 @@ export class ProgressPage implements OnInit {
     this.progressService.getGoals().pipe(takeUntil(this.destroy)).subscribe({
       next: (goals) => {
         this.goals.set(goals);
-        this.loading.set(false);
       },
       error: () => {
         this.goals.set([]);
-        this.loading.set(false);
       }
     });
   }

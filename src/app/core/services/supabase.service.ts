@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { SecureStorageService } from './secure-storage.service';
 import { SupabaseStorageAdapter } from './supabase-storage.adapter';
+import { LoggerService } from './logger.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class SupabaseService {
   private currentUser = new BehaviorSubject<User | null>(null);
   private currentSession = new BehaviorSubject<Session | null>(null);
   private secureStorage = inject(SecureStorageService);
+  private logger = inject(LoggerService);
 
   constructor() {
     // Create custom storage adapter for secure token storage
@@ -38,7 +40,7 @@ export class SupabaseService {
 
       // Log auth events in development only
       if (!environment.production) {
-        console.log('Auth state changed:', event);
+        this.logger.debug('Auth state changed:', event);
       }
     });
 

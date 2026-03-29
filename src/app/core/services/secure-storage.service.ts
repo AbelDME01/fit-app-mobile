@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import { from, Observable } from 'rxjs';
+import { LoggerService } from './logger.service';
 
 /**
  * Secure Storage Service using Capacitor Preferences
@@ -12,6 +13,7 @@ import { from, Observable } from 'rxjs';
 })
 export class SecureStorageService {
   private readonly ENCRYPTION_KEY = 'fitpro_secure_storage';
+  private logger = inject(LoggerService);
 
   /**
    * Store data securely
@@ -24,7 +26,7 @@ export class SecureStorageService {
         value: this.encrypt(value)
       });
     } catch (error) {
-      console.error('Error storing secure data:', error);
+      this.logger.error('Error storing secure data:', error);
       throw error;
     }
   }
@@ -34,12 +36,12 @@ export class SecureStorageService {
    */
   async get(key: string): Promise<string | null> {
     try {
-      const { value } = await Preferences.get({ 
-        key: this.getSecureKey(key) 
+      const { value } = await Preferences.get({
+        key: this.getSecureKey(key)
       });
       return value ? this.decrypt(value) : null;
     } catch (error) {
-      console.error('Error retrieving secure data:', error);
+      this.logger.error('Error retrieving secure data:', error);
       return null;
     }
   }
@@ -49,11 +51,11 @@ export class SecureStorageService {
    */
   async remove(key: string): Promise<void> {
     try {
-      await Preferences.remove({ 
-        key: this.getSecureKey(key) 
+      await Preferences.remove({
+        key: this.getSecureKey(key)
       });
     } catch (error) {
-      console.error('Error removing secure data:', error);
+      this.logger.error('Error removing secure data:', error);
       throw error;
     }
   }
@@ -65,7 +67,7 @@ export class SecureStorageService {
     try {
       await Preferences.clear();
     } catch (error) {
-      console.error('Error clearing secure storage:', error);
+      this.logger.error('Error clearing secure storage:', error);
       throw error;
     }
   }
@@ -116,7 +118,7 @@ export class SecureStorageService {
       // Base64 encode for additional obfuscation
       return btoa(data);
     } catch (error) {
-      console.error('Encryption error:', error);
+      this.logger.error('Encryption error:', error);
       return data;
     }
   }
@@ -128,7 +130,7 @@ export class SecureStorageService {
     try {
       return atob(data);
     } catch (error) {
-      console.error('Decryption error:', error);
+      this.logger.error('Decryption error:', error);
       return data;
     }
   }
