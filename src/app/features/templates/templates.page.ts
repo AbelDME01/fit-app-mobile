@@ -25,7 +25,9 @@ import {
   playCircleOutline,
   searchOutline
 } from 'ionicons/icons';
+import { takeUntil } from 'rxjs/operators';
 import { WorkoutTemplateService, WorkoutTemplate } from '@core/services/workout-template.service';
+import { DestroyService } from '@core/services/destroy.service';
 
 @Component({
   selector: 'app-templates',
@@ -42,6 +44,7 @@ import { WorkoutTemplateService, WorkoutTemplate } from '@core/services/workout-
     IonFabButton,
     IonSpinner
   ],
+  providers: [DestroyService],
   templateUrl: './templates.page.html',
   styleUrls: ['./templates.page.scss']
 })
@@ -50,6 +53,7 @@ export class TemplatesPage implements OnInit {
   private router = inject(Router);
   private toastController = inject(ToastController);
   private alertController = inject(AlertController);
+  private readonly destroy = inject(DestroyService);
 
   templates = signal<WorkoutTemplate[]>([]);
   filteredTemplates = signal<WorkoutTemplate[]>([]);
@@ -81,9 +85,7 @@ export class TemplatesPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.loadTemplates();
-  }
+  ngOnInit() { /* intentionally empty - data loaded in ionViewWillEnter */ }
 
   ionViewWillEnter() {
     this.loadTemplates();
@@ -91,7 +93,7 @@ export class TemplatesPage implements OnInit {
 
   loadTemplates(): void {
     this.loading.set(true);
-    this.templateService.getTemplates().subscribe({
+    this.templateService.getTemplates().pipe(takeUntil(this.destroy)).subscribe({
       next: (templates) => {
         this.templates.set(templates);
         this.filteredTemplates.set(templates);
@@ -185,7 +187,7 @@ export class TemplatesPage implements OnInit {
   }
 
   deleteTemplate(id: string): void {
-    this.templateService.deleteTemplate(id).subscribe({
+    this.templateService.deleteTemplate(id).pipe(takeUntil(this.destroy)).subscribe({
       next: async () => {
         this.templates.update(templates => templates.filter(t => t.id !== id));
         this.filteredTemplates.update(templates => templates.filter(t => t.id !== id));

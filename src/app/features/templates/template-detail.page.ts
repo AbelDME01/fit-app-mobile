@@ -13,8 +13,10 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { arrowBack, saveOutline, addOutline, trashOutline, createOutline } from 'ionicons/icons';
+import { takeUntil } from 'rxjs/operators';
 import { WorkoutTemplateService, WorkoutTemplate } from '@core/services/workout-template.service';
 import { WorkoutExercise } from '@core/services/workout.service';
+import { DestroyService } from '@core/services/destroy.service';
 import { ExerciseEditorComponent } from '../add-workout/exercise-editor/exercise-editor.component';
 
 interface WorkoutType {
@@ -35,6 +37,7 @@ interface WorkoutType {
     IonIcon,
     IonSpinner
   ],
+  providers: [DestroyService],
   templateUrl: './template-detail.page.html',
   styleUrls: ['./template-detail.page.scss']
 })
@@ -44,6 +47,7 @@ export class TemplateDetailPage implements OnInit {
   private route = inject(ActivatedRoute);
   private toastController = inject(ToastController);
   private modalController = inject(ModalController);
+  private readonly destroy = inject(DestroyService);
 
   workoutTypes: WorkoutType[] = [
     { id: 1, name: 'Fuerza', icon: 'barbell-outline' },
@@ -75,7 +79,7 @@ export class TemplateDetailPage implements OnInit {
   }
 
   loadTemplate(id: string): void {
-    this.templateService.getTemplate(id).subscribe({
+    this.templateService.getTemplate(id).pipe(takeUntil(this.destroy)).subscribe({
       next: (template) => {
         this.templateName.set(template.name);
         this.templateDescription.set(template.description || '');
@@ -214,8 +218,9 @@ export class TemplateDetailPage implements OnInit {
       ? this.templateService.updateTemplate(this.templateId()!, template)
       : this.templateService.createTemplate(template);
 
-    saveOperation.subscribe({
+    saveOperation.pipe(takeUntil(this.destroy)).subscribe({
       next: async () => {
+        this.saving.set(false);
         const message = this.isEditMode()
           ? 'Plantilla actualizada correctamente'
           : 'Plantilla creada correctamente';

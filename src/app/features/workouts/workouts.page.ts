@@ -12,7 +12,9 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add, createOutline, trashOutline, barbellOutline, heartOutline, flashOutline } from 'ionicons/icons';
+import { takeUntil } from 'rxjs/operators';
 import { WorkoutService, Workout } from '@core/services/workout.service';
+import { DestroyService } from '@core/services/destroy.service';
 
 @Component({
   selector: 'app-workouts',
@@ -25,6 +27,7 @@ import { WorkoutService, Workout } from '@core/services/workout.service';
     IonFabButton,
     IonSpinner
   ],
+  providers: [DestroyService],
   templateUrl: './workouts.page.html',
   styleUrl: './workouts.page.scss'
 })
@@ -33,6 +36,7 @@ export class WorkoutsPage implements OnInit {
   private router = inject(Router);
   private toastController = inject(ToastController);
   private alertController = inject(AlertController);
+  private readonly destroy = inject(DestroyService);
 
   workouts = signal<Workout[]>([]);
   loading = signal(true);
@@ -53,9 +57,7 @@ export class WorkoutsPage implements OnInit {
     addIcons({ add, createOutline, trashOutline, barbellOutline, heartOutline, flashOutline });
   }
 
-  ngOnInit() {
-    this.loadWorkouts();
-  }
+  ngOnInit() { /* intentionally empty - data loaded in ionViewWillEnter */ }
 
   ionViewWillEnter() {
     this.loadWorkouts();
@@ -63,7 +65,7 @@ export class WorkoutsPage implements OnInit {
 
   loadWorkouts(): void {
     this.loading.set(true);
-    this.workoutService.getWorkouts().subscribe({
+    this.workoutService.getWorkouts().pipe(takeUntil(this.destroy)).subscribe({
       next: (workouts) => {
         this.workouts.set(workouts);
         this.loading.set(false);
