@@ -1,0 +1,66 @@
+<ion-content [fullscreen]="true">
+  <div class="records-container safe-area-top">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <span class="subtitle">Personal Records</span>
+        <h1 class="title">Mis Marcas</h1>
+      </div>
+      <button class="add-btn">
+        <ion-icon name="add-outline"></ion-icon>
+      </button>
+    </header>
+
+    <div class="content">
+      <!-- Filter Tabs -->
+      <div class="filter-tabs">
+        @for (filter of filters; track filter.id) {
+          <button
+            class="filter-tab"
+            [class.active]="activeFilter() === filter.id"
+            (click)="setFilter(filter.id)"
+          >
+            {{ filter.label }}
+          </button>
+        }
+      </div>
+
+      <!-- Loading -->
+      @if (loading()) {
+        <div class="loading-container">
+          <ion-spinner name="crescent"></ion-spinner>
+        </div>
+      } @else {
+        <!-- Records Section -->
+        <section class="section">
+          <div class="section-header">
+            <div class="accent-line"></div>
+            <span class="section-label">RECORDS ACTUALES</span>
+          </div>
+
+          <div class="records-list">
+            @for (record of records(); track record.id) {
+              <div class="record-card">
+                <div class="record-info">
+                  <span class="record-name">{{ record.exerciseName }}</span>
+                  <span class="record-date">Logrado {{ formatDate(record.achievedAt) }}</span>
+                </div>
+                <div class="record-value-section">
+                  <span class="record-value">{{ record.value }}{{ record.unit }}</span>
+                  @if (record.previousValue) {
+                    <span class="record-improvement">{{ getImprovement(record) }}</span>
+                  }
+                </div>
+              </div>
+            } @empty {
+              <div class="empty-state">
+                <p>No hay records registrados</p>
+                <span>Completa entrenamientos para registrar tus marcas personales</span>
+              </div>
+            }
+          </div>
+        </section>
+      }
+    </div>
+  </div>
+</ion-content>

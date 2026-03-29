@@ -1,0 +1,176 @@
+.workouts-container {
+  min-height: 100%;
+  background: var(--swiss-bg);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 16px;
+  padding-top: calc(env(safe-area-inset-top) + 24px);
+
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .greeting {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--swiss-text-secondary);
+  }
+
+  .title {
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    color: var(--swiss-text-primary);
+    margin: 0;
+  }
+}
+
+.content {
+  padding: 0 24px 100px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+
+  ion-spinner {
+    --color: var(--swiss-accent);
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  text-align: center;
+
+  .empty-icon {
+    font-size: 64px;
+    color: var(--swiss-text-muted);
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--swiss-text-primary);
+    margin: 0 0 8px;
+  }
+
+  p {
+    font-size: 14px;
+    color: var(--swiss-text-muted);
+    margin: 0;
+  }
+}
+
+.workouts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.workout-card {
+  background: var(--swiss-surface);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  .workout-type-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--swiss-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    ion-icon {
+      font-size: 22px;
+      color: #FFFFFF;
+    }
+  }
+
+  .workout-info {
+    flex: 1;
+    min-width: 0;
+
+    .workout-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--swiss-text-primary);
+      margin: 0 0 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .workout-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--swiss-text-muted);
+
+      .type-label {
+        color: var(--swiss-accent);
+        font-weight: 500;
+      }
+
+      .separator {
+        color: var(--swiss-text-muted);
+      }
+    }
+  }
+
+  .workout-actions {
+    display: flex;
+    gap: 4px;
+
+    .action-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: transparent;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      ion-icon {
+        font-size: 18px;
+        color: var(--swiss-text-muted);
+      }
+
+      &:active {
+        background: var(--swiss-border);
+      }
+
+      &.delete ion-icon {
+        color: #ef4444;
+      }
+    }
+  }
+}
+
+ion-fab-button {
+  --background: var(--swiss-accent);
+  --color: #FFFFFF;
+}

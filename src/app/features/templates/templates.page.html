@@ -1,0 +1,80 @@
+<ion-content [fullscreen]="true">
+  <div class="templates-container safe-area-top">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <span class="greeting">Tus rutinas</span>
+        <h1 class="title">Plantillas</h1>
+      </div>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+      <ion-searchbar
+        placeholder="Buscar plantillas..."
+        animated="true"
+        (ionInput)="handleSearch($event)"
+        [value]="searchQuery()"
+      ></ion-searchbar>
+    </div>
+
+    <div class="content">
+      @if (loading()) {
+        <div class="loading-container">
+          <ion-spinner name="crescent"></ion-spinner>
+        </div>
+      } @else if (filteredTemplates().length === 0) {
+        <div class="empty-state">
+          @if (searchQuery()) {
+            <ion-icon name="search-outline" class="empty-icon"></ion-icon>
+            <h3>No se encontraron resultados</h3>
+            <p>Intenta con otros términos de búsqueda</p>
+          } @else {
+            <ion-icon name="barbell-outline" class="empty-icon"></ion-icon>
+            <h3>No hay plantillas</h3>
+            <p>Crea tu primera plantilla pulsando el botón +</p>
+          }
+        </div>
+      } @else {
+        <section class="templates-list">
+          @for (template of filteredTemplates(); track template.id) {
+            <div class="template-card">
+              <div class="template-type-badge">
+                <ion-icon [name]="getTypeIcon(template.workoutTypeId)"></ion-icon>
+              </div>
+              <div class="template-info">
+                <h3 class="template-name">{{ template.name }}</h3>
+                @if (template.description) {
+                  <p class="template-description">{{ template.description }}</p>
+                }
+                <div class="template-meta">
+                  <span class="type-label">{{ getTypeName(template.workoutTypeId) }}</span>
+                  <span class="separator">•</span>
+                  <span>{{ template.exercises.length }} ejercicios</span>
+                </div>
+              </div>
+              <div class="template-actions">
+                <button class="action-btn use" (click)="useTemplate(template)" title="Usar plantilla">
+                  <ion-icon name="play-circle-outline"></ion-icon>
+                </button>
+                <button class="action-btn" (click)="editTemplate(template.id!)" title="Editar">
+                  <ion-icon name="create-outline"></ion-icon>
+                </button>
+                <button class="action-btn delete" (click)="confirmDelete(template)" title="Eliminar">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </button>
+              </div>
+            </div>
+          }
+        </section>
+      }
+    </div>
+
+    <!-- FAB para añadir nueva plantilla -->
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="createTemplate()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+</ion-content>

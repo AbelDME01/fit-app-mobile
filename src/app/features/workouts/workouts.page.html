@@ -1,0 +1,58 @@
+<ion-content [fullscreen]="true">
+  <div class="workouts-container safe-area-top">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <span class="greeting">Tus rutinas</span>
+        <h1 class="title">Entrenamientos</h1>
+      </div>
+    </header>
+
+    <div class="content">
+      @if (loading()) {
+        <div class="loading-container">
+          <ion-spinner name="crescent"></ion-spinner>
+        </div>
+      } @else if (workouts().length === 0) {
+        <div class="empty-state">
+          <ion-icon name="barbell-outline" class="empty-icon"></ion-icon>
+          <h3>No hay entrenamientos</h3>
+          <p>Crea tu primer entrenamiento pulsando el boton +</p>
+        </div>
+      } @else {
+        <section class="workouts-list">
+          @for (workout of workouts(); track workout.id) {
+            <div class="workout-card">
+              <div class="workout-type-badge">
+                <ion-icon [name]="getTypeIcon(workout.workoutTypeId)"></ion-icon>
+              </div>
+              <div class="workout-info">
+                <h3 class="workout-name">{{ workout.name }}</h3>
+                <div class="workout-meta">
+                  <span class="type-label">{{ getTypeName(workout.workoutTypeId) }}</span>
+                  <span class="separator">•</span>
+                  <span>{{ workout.exercises.length }} ejercicios</span>
+                </div>
+              </div>
+              <div class="workout-actions">
+                <button class="action-btn" (click)="editWorkout(workout.id!)">
+                  <ion-icon name="create-outline"></ion-icon>
+                </button>
+                <button class="action-btn delete" (click)="confirmDelete(workout)">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </button>
+              </div>
+            </div>
+          }
+        </section>
+      }
+    </div>
+
+    <!-- FAB para añadir nuevo -->
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="addWorkout()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+</ion-content>
