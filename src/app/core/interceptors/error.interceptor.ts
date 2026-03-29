@@ -4,10 +4,12 @@ import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { ToastController } from '@ionic/angular/standalone';
 import { environment } from '@env/environment';
+import { LoggerService } from '@core/services/logger.service';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const toastController = inject(ToastController);
+  const logger = inject(LoggerService);
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
@@ -40,7 +42,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
       // Log detailed error in development only
       if (!environment.production) {
-        console.error('HTTP Error:', {
+        logger.error('HTTP Error:', {
           status: error.status,
           message: error.message,
           url: req.url,
@@ -48,7 +50,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         });
       } else {
         // In production, log minimal info for monitoring
-        console.error('HTTP Error:', error.status, req.url);
+        logger.error('HTTP Error:', { status: error.status, url: req.url });
       }
 
       // Show toast notification
