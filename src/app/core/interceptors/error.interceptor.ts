@@ -4,11 +4,13 @@ import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { ToastController } from '@ionic/angular/standalone';
 import { environment } from '@env/environment';
+import { AuthService } from '@core/services/auth.service';
 import { LoggerService } from '@core/services/logger.service';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const toastController = inject(ToastController);
+  const authService = inject(AuthService);
   const logger = inject(LoggerService);
 
   return next(req).pipe(
@@ -21,8 +23,9 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         // Network error or CORS issue
         errorMessage = 'No se puede conectar al servidor. Verifica tu conexión.';
       } else if (error.status === 401) {
-        router.navigate(['/auth/login']);
         errorMessage = 'Sesión expirada. Por favor, inicia sesión de nuevo.';
+        // logout() clears the session and navigates to /auth/login internally
+        authService.logout();
       } else if (error.status === 403) {
         errorMessage = 'No tienes permisos para realizar esta acción.';
       } else if (error.status === 404) {
