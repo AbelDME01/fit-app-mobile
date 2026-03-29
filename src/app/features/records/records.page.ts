@@ -7,7 +7,9 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { addOutline } from 'ionicons/icons';
+import { takeUntil } from 'rxjs/operators';
 import { RecordsService, PersonalRecord } from '@core/services/records.service';
+import { DestroyService } from '@core/services/destroy.service';
 
 type FilterType = 'all' | 'strength' | 'cardio';
 
@@ -20,11 +22,13 @@ type FilterType = 'all' | 'strength' | 'cardio';
     IonIcon,
     IonSpinner
   ],
+  providers: [DestroyService],
   templateUrl: './records.page.html',
   styleUrl: './records.page.scss'
 })
 export class RecordsPage implements OnInit {
   private recordsService = inject(RecordsService);
+  private readonly destroy = inject(DestroyService);
 
   filters: { id: FilterType; label: string }[] = [
     { id: 'all', label: 'Todos' },
@@ -51,7 +55,7 @@ export class RecordsPage implements OnInit {
 
   private loadRecords(): void {
     this.loading.set(true);
-    this.recordsService.getRecords(this.activeFilter()).subscribe({
+    this.recordsService.getRecords(this.activeFilter()).pipe(takeUntil(this.destroy)).subscribe({
       next: (records) => {
         this.records.set(records);
         this.loading.set(false);
