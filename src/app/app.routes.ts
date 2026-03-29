@@ -47,6 +47,15 @@ export const routes: Routes = [
         path: 'progress',
         loadComponent: () => import('./features/progress/progress.page').then(m => m.ProgressPage),
       },
+      {
+        path: 'templates',
+        loadComponent: () => import('./features/templates/templates.page').then(m => m.TemplatesPage),
+      },
     ],
+  },
+  {
+    path: 'template-detail/:id',
+    loadComponent: () => import('./features/templates/template-detail.page').then(m => m.TemplateDetailPage),
+    canActivate: [authGuard],
   },
 ];
