@@ -216,6 +216,7 @@ export class TemplateDetailPage implements OnInit {
 
     saveOperation.subscribe({
       next: async () => {
+        this.saving.set(false);
         const message = this.isEditMode()
           ? 'Plantilla actualizada correctamente'
           : 'Plantilla creada correctamente';

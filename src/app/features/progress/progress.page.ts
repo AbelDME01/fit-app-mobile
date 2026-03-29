@@ -7,6 +7,7 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { calendarOutline } from 'ionicons/icons';
+import { finalize } from 'rxjs/operators';
 import { ProgressService, ProgressSummary, WeeklyProgress, Goal } from '@core/services/progress.service';
 
 type TimeFilter = 'weekly' | 'monthly' | 'yearly';
@@ -61,14 +62,14 @@ export class ProgressPage implements OnInit {
 
     this.loadChartData();
 
-    this.progressService.getGoals().subscribe({
+    this.progressService.getGoals().pipe(
+      finalize(() => this.loading.set(false))
+    ).subscribe({
       next: (goals) => {
         this.goals.set(goals);
-        this.loading.set(false);
       },
       error: () => {
         this.goals.set([]);
-        this.loading.set(false);
       }
     });
   }
