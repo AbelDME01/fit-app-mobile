@@ -13,7 +13,9 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { arrowBack, saveOutline, addOutline, trashOutline, createOutline } from 'ionicons/icons';
+import { takeUntil } from 'rxjs/operators';
 import { WorkoutService, Workout, WorkoutExercise } from '@core/services/workout.service';
+import { DestroyService } from '@core/services/destroy.service';
 import { ExerciseEditorComponent } from './exercise-editor/exercise-editor.component';
 
 interface WorkoutType {
@@ -34,6 +36,7 @@ interface WorkoutType {
     IonIcon,
     IonSpinner
   ],
+  providers: [DestroyService],
   templateUrl: './add-workout.page.html',
   styleUrl: './add-workout.page.scss'
 })
@@ -43,6 +46,7 @@ export class AddWorkoutPage implements OnInit {
   private route = inject(ActivatedRoute);
   private toastController = inject(ToastController);
   private modalController = inject(ModalController);
+  private readonly destroy = inject(DestroyService);
 
   workoutTypes: WorkoutType[] = [
     { id: 1, name: 'Fuerza', icon: 'barbell-outline' },
@@ -73,7 +77,7 @@ export class AddWorkoutPage implements OnInit {
   }
 
   loadWorkout(id: string): void {
-    this.workoutService.getWorkout(id).subscribe({
+    this.workoutService.getWorkout(id).pipe(takeUntil(this.destroy)).subscribe({
       next: (workout) => {
         this.workoutName.set(workout.name);
         this.selectedTypeId.set(workout.workoutTypeId);
@@ -209,7 +213,7 @@ export class AddWorkoutPage implements OnInit {
       ? this.workoutService.updateWorkout(this.workoutId()!, workout)
       : this.workoutService.createWorkout(workout);
 
-    saveOperation.subscribe({
+    saveOperation.pipe(takeUntil(this.destroy)).subscribe({
       next: async () => {
         this.saving.set(false);
         const message = this.isEditMode()

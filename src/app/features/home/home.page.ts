@@ -10,8 +10,10 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { notificationsOutline, chevronForward, addOutline, trophyOutline } from 'ionicons/icons';
+import { takeUntil } from 'rxjs/operators';
 import { WorkoutService, Workout, WorkoutStats } from '@core/services/workout.service';
 import { AuthService } from '@core/services/auth.service';
+import { DestroyService } from '@core/services/destroy.service';
 
 @Component({
   selector: 'app-home',
@@ -25,12 +27,14 @@ import { AuthService } from '@core/services/auth.service';
     IonIcon,
     IonSpinner
   ],
+  providers: [DestroyService],
   templateUrl: './home.page.html',
   styleUrl: './home.page.scss'
 })
 export class HomePage implements OnInit {
   private workoutService = inject(WorkoutService);
   private authService = inject(AuthService);
+  private readonly destroy = inject(DestroyService);
 
   stats = signal<WorkoutStats | null>(null);
   recentWorkouts = signal<Workout[]>([]);
@@ -57,12 +61,12 @@ export class HomePage implements OnInit {
   private loadData(): void {
     this.loading.set(true);
 
-    this.workoutService.getWeeklyStats().subscribe({
+    this.workoutService.getWeeklyStats().pipe(takeUntil(this.destroy)).subscribe({
       next: (stats) => this.stats.set(stats),
       error: () => this.stats.set({ totalSessions: 0, totalTime: 0, weeklyChange: 0, timeChange: 0 })
     });
 
-    this.workoutService.getRecentWorkouts(3).subscribe({
+    this.workoutService.getRecentWorkouts(3).pipe(takeUntil(this.destroy)).subscribe({
       next: (workouts) => {
         this.recentWorkouts.set(workouts);
         this.loading.set(false);

@@ -7,8 +7,10 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { calendarOutline } from 'ionicons/icons';
+import { takeUntil } from 'rxjs/operators';
 import { finalize } from 'rxjs/operators';
 import { ProgressService, ProgressSummary, WeeklyProgress, Goal } from '@core/services/progress.service';
+import { DestroyService } from '@core/services/destroy.service';
 
 type TimeFilter = 'weekly' | 'monthly' | 'yearly';
 
@@ -21,11 +23,13 @@ type TimeFilter = 'weekly' | 'monthly' | 'yearly';
     IonIcon,
     IonSpinner
   ],
+  providers: [DestroyService],
   templateUrl: './progress.page.html',
   styleUrl: './progress.page.scss'
 })
 export class ProgressPage implements OnInit {
   private progressService = inject(ProgressService);
+  private readonly destroy = inject(DestroyService);
 
   timeFilters: { id: TimeFilter; label: string }[] = [
     { id: 'weekly', label: 'Semana' },
@@ -55,16 +59,14 @@ export class ProgressPage implements OnInit {
   private loadData(): void {
     this.loading.set(true);
 
-    this.progressService.getSummary().subscribe({
+    this.progressService.getSummary().pipe(takeUntil(this.destroy)).subscribe({
       next: (summary) => this.summary.set(summary),
       error: () => this.summary.set({ totalWorkouts: 0, totalTime: 0, averagePerWeek: 0 })
     });
 
     this.loadChartData();
 
-    this.progressService.getGoals().pipe(
-      finalize(() => this.loading.set(false))
-    ).subscribe({
+    this.progressService.getGoals().pipe(takeUntil(this.destroy)).subscribe({
       next: (goals) => {
         this.goals.set(goals);
       },
@@ -89,7 +91,7 @@ export class ProgressPage implements OnInit {
         observable = this.progressService.getMonthlyProgress();
     }
 
-    observable.subscribe({
+    observable.pipe(takeUntil(this.destroy)).subscribe({
       next: (data) => this.chartData.set(data),
       error: () => this.chartData.set({ labels: [], data: [] })
     });
